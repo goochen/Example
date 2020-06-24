@@ -1,0 +1,45 @@
+listen: 0.0.0.0:443
+
+vhosts:
+  - name: your.domain.com
+    tlsoffloading: true
+    managedcert: true
+    alpn: h2,http/1.1
+    protocols: tls12,tls13
+    http:
+      ##CDN@paths:
+        ##CDN@- path: /FAKECDNPATH
+        ##CDN@  handler: proxyPass
+        ##CDN@  args: 127.0.0.1:3566
+      handler: fileServer
+      args: /var/www/html
+    default:
+      handler: proxyPass
+      args: unix:/tmp/v2ray-ds/v2ray.sock
+
+  ##SUBAPI@- name: FAKEAPIDOMAIN
+    ##SUBAPI@tlsoffloading: true
+    ##SUBAPI@managedcert: true
+    ##SUBAPI@alpn: http/1.1
+    ##SUBAPI@protocols: tls12,tls13
+    ##SUBAPI@http:
+      ##SUBAPI@handler: proxyPass
+      ##SUBAPI@args: 127.0.0.1:25500
+
+  ##MTPROTO@- name: FAKEMTDOMAIN
+    ##MTPROTO@tlsoffloading: false
+    ##MTPROTO@default:
+      ##MTPROTO@handler: proxyPass
+      ##MTPROTO@args: 127.0.0.1:3128
+
+  - name: your.another-domain.com
+    tlsoffloading: true
+    managedcert: true
+    alpn: h2,http/1.1
+    protocols: tls12,tls13
+    http:
+      handler: fileServer
+      args: /var/www/html
+    default:
+      handler: proxyPass
+      args: 127.0.0.1:3567

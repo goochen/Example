@@ -1,0 +1,7 @@
+your.domain.com:80 {
+    redir https://your.domain.com{uri}
+}
+
+your.another-domain.com:80 {
+    redir https://your.another-domain.com{uri}
+}
