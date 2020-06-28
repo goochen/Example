@@ -1,0 +1,19 @@
+listen: 0.0.0.0:443 #TSP_Port
+inboundbuffersize: 4
+outboundbuffersize: 32
+vhosts:
+  - name: your_domain #TSP_Domain
+    tlsoffloading: true
+    managedcert: true
+    alpn: http/1.1
+    protocols: tls12,tls13
+    http:
+      paths:
+      - path: /ee3c0266/ #V2Ray_WSPATH
+        handler: proxyPass
+        args: 127.0.0.1:24213 #V2Ray_Port
+      handler: fileServer
+      args: /var/www/html #伪装站
+    default:
+      handler: proxyPass
+      args: 127.0.0.1:15969 #Trojan-Go_Port
